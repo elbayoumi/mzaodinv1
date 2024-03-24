@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebSite\AuctionController;
 use App\Http\Controllers\WebSite\HomeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,15 +46,14 @@ Route::get('/settings',[HomeController::class, 'settings'])->name('settings');
 Route::get('/auctions',[HomeController::class, 'index'])->name('auctions');
 Route::get('/slider',function (){
     return Inertia::render('Web/SwiperSlideTest');
+
      })->name('SwiperSlideTest.slider');
-Route::get('/plus',function (){
-    return Inertia::render('Web/Contrdashd');
-     })->name('Contrdashdone');
-Route::get('/plusa',function (){
-    return Inertia::render('Web/Controtwo');
-     })->name('Controtwo');
-Route::get('/plusaa',function (){
-    return Inertia::render('Web/Controlthree');
-     })->name('Controlthree');
+     Route::group([
+        'prefix' => 'auction',
+    ], function () {
+        Route::get('/registration/{auction_id}',[AuctionController::class, 'registration'])->name('Contrdashdone');
+        Route::get('/bidding/{auction_id}',[AuctionController::class, 'bidding'])->name('Controtwo');
+        Route::get('/history/{auction_id}',[AuctionController::class, 'history'])->name('Controlthree');
+    });
 
 require __DIR__.'/auth.php';
